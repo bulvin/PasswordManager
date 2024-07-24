@@ -1,4 +1,5 @@
 ﻿using PasswordManager.Common.Api;
+using PasswordManager.Passes;
 using PasswordManager.Passwords;
 using System.Net.NetworkInformation;
 
@@ -21,7 +22,9 @@ namespace PasswordManager
             var passesGroup = app.MapGroup("/passes")
                 .WithTags("Passes");
 
-            passesGroup.MapEndpoint<SavePass>();
+            passesGroup
+                .MapEndpoint<SavePass>()
+                .MapEndpoint<GetPassById>();
 
         }
 

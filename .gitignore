@@ -398,4 +398,4 @@ FodyWeavers.xsd
 *.sln.iml
 
 
-./appsetings.Development.json
+appsettings*.json
