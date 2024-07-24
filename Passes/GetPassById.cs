@@ -25,9 +25,9 @@ namespace PasswordManager.Passes
             AppDbContext database,
             Crypto crypto,
             CancellationToken cancellationToken)
+
         {
 
-       
             var pass = await database.Passes
                .Where(p => p.Id == request.Id)
                .Select(p => new Response
