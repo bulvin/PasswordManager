@@ -8,7 +8,7 @@ namespace PasswordManager
     {
         public static void MapEndpoints(this WebApplication app)
         {
-            var endpoints = app.MapGroup("/")
+            var endpoints = app.MapGroup("")
                 .WithOpenApi(); 
 
       

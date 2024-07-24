@@ -10,5 +10,7 @@
 
         public string Password { get; set; } = default!;
 
+        public string IV { get; set; } = default!;
+
     }
 }

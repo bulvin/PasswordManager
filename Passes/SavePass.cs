@@ -1,8 +1,10 @@
 ﻿using BCrypt.Net;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using PasswordManager.Common.Api;
 using PasswordManager.Data;
 using PasswordManager.Security.Encryption;
+using static PasswordManager.Passwords.SavePass;
 
 namespace PasswordManager.Passwords
 {
@@ -16,26 +18,36 @@ namespace PasswordManager.Passwords
         public record Response(int Id);
 
 
-        private static async Task<Results<Created<Response>, BadRequest>> Handle(Request request, AppDbContext database, Crypto crypto, CancellationToken cancellationToken)
+        private static async Task<Results<Created, BadRequest>> Handle(
+            Request request, 
+            AppDbContext database, 
+            Crypto crypto,
+            CancellationToken cancellationToken)
         {
-            bool created = Uri.TryCreate(request.WebsiteUrl, UriKind.Relative, out var nameUrl);
-            if (!created) {
+            bool isValidUrl = Uri.TryCreate(request.WebsiteUrl, UriKind.RelativeOrAbsolute, out var nameUrl)
+                       && nameUrl.IsWellFormedOriginalString();
+
+            if (!isValidUrl)
+            {
                 return TypedResults.BadRequest();
             }
 
-            var encryptPassword = crypto.EncryptString(request.Passwd);
-           
+            var (encryptPassword, base64IV) = crypto.EncryptString(request.Passwd);
+
             var pass = new Pass
             {
                 WebsiteUrl = nameUrl!,
                 Username = request.Username,
                 Password = encryptPassword,
+                IV = base64IV,
             };
 
             await database.Passes.AddAsync(pass, cancellationToken);
             await database.SaveChangesAsync(cancellationToken);
 
-            return TypedResults.Created($"/api/passes/{pass.Id}", new Response(pass.Id));
+
+            return TypedResults.Created();
+                
 
         }
 

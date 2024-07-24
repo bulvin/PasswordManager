@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using PasswordManager;
 using PasswordManager.Data;
 using PasswordManager.Security.Encryption;
 using System.Buffers.Text;
@@ -8,7 +9,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.CustomSchemaIds(type => type.FullName?.Replace('+', '.'));
+    options.InferSecuritySchemes();
+});
 
 builder.Services.Configure<CryptOptions>(builder.Configuration.GetSection("Encryption"));
 builder.Services.AddTransient<Crypto>();
@@ -28,6 +33,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.MapEndpoints();
 
 app.Run();
