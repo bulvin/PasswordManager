@@ -24,7 +24,9 @@ namespace PasswordManager
 
             passesGroup
                 .MapEndpoint<SavePass>()
-                .MapEndpoint<GetPassById>();
+                .MapEndpoint<GetPassById>()
+                .MapEndpoint<UpdatePass>()
+                .MapEndpoint<DeletePass>();
 
         }
 

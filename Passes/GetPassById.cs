@@ -9,7 +9,7 @@ namespace PasswordManager.Passes
     public class GetPassById : IEndpoint
     {
         public static void Map(IEndpointRouteBuilder app) => app
-            .MapGet("/{Id}", Handle)
+            .MapGet("/{id}", Handle)
             .WithSummary("Gets a post by id");
 
         public record Request(int Id);
@@ -40,7 +40,7 @@ namespace PasswordManager.Passes
                ))
                .SingleOrDefaultAsync(cancellationToken);
 
-            return pass is null 
+            return pass is null  
                 ? TypedResults.NotFound()
                 : TypedResults.Ok(pass);
                 

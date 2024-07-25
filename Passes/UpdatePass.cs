@@ -14,7 +14,7 @@ namespace PasswordManager.Passes
 
         public record Request(int Id, string Url, string Username, string Password);
 
-        private static async Task<Ok> Handle(
+        private static async Task<Results<Ok,BadRequest>> Handle(
             Request request,
             AppDbContext database,
             Crypto crypto,
@@ -22,14 +22,26 @@ namespace PasswordManager.Passes
         {
 
             var pass = await database.Passes.SingleOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
-            pass.WebsiteUrl = Uri.TryCreate(request.Url, UriKind.RelativeOrAbsolute, out var uri) ? uri : pass.WebsiteUrl;
-            
-            pass.Username = request.Username;
-            
-            var (updatedPassword, IV) = crypto.EncryptString(request.Password);
-            pass.Password = updatedPassword;
-            pass.IV = IV;
 
+            if (pass == null) return TypedResults.BadRequest();
+           
+            if (request.Url != null)
+            {
+                pass.WebsiteUrl = Uri.TryCreate(request.Url, UriKind.RelativeOrAbsolute, out var uri) ? uri : pass.WebsiteUrl;
+            }
+
+            if (string.IsNullOrEmpty(request.Password))
+            {
+                var (updatedPassword, IV) = crypto.EncryptString(request.Password);
+                pass.Password = updatedPassword;
+                pass.IV = IV;
+            }
+
+            if (request.Username != null)
+            {
+                pass.Username = request.Username;
+            }
+            
             await database.SaveChangesAsync(cancellationToken);
        
             return TypedResults.Ok();
