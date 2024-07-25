@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using PasswordManager.Common.Api;
 using PasswordManager.Data;
 using PasswordManager.Security.Encryption;
-using static PasswordManager.Passwords.SavePass;
 
 namespace PasswordManager.Passwords
 {
