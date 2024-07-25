@@ -14,7 +14,7 @@ namespace PasswordManager.Passes
         public record Request(int Id);
 
         private static async Task<Results<Ok, NotFound>> Handle(
-            Request request,
+           [AsParameters] Request request,
             AppDbContext database,
             CancellationToken cancellationToken
             )
