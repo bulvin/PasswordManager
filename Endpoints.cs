@@ -14,6 +14,7 @@ namespace PasswordManager
 
       
             endpoints.MapPassEndpoints();
+            endpoints.MapPasswordEndpoints();
         }
 
         private static void MapPassEndpoints(this IEndpointRouteBuilder app)
@@ -27,9 +28,15 @@ namespace PasswordManager
                 .MapEndpoint<GetPassById>()
                 .MapEndpoint<UpdatePass>()
                 .MapEndpoint<DeletePass>()
-                .MapEndpoint<GetPasses>()
-                .MapEndpoint<GeneratePassword>();
+                .MapEndpoint<GetPasses>();
 
+        }
+        private static void MapPasswordEndpoints(this IEndpointRouteBuilder app)
+        {
+            var passwordGroup = app.MapGroup("/password-generator")
+                .WithTags("Passwords");
+
+            passwordGroup.MapEndpoint<GenerateRandomPassword>();
         }
 
         private static IEndpointRouteBuilder MapEndpoint<TEndpoint>(this IEndpointRouteBuilder app) where TEndpoint : IEndpoint

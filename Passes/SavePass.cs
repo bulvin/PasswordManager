@@ -11,7 +11,7 @@ namespace PasswordManager.Passwords
     {
         public static void Map(IEndpointRouteBuilder app) => app
             .MapPost("/", Handle)
-            .WithSummary("Save a new pass");
+            .WithSummary("Saves a new pass");
 
         public record Request(string WebsiteUrl, string Username, string Passwd);
         public record Response(int Id);

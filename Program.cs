@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using PasswordManager;
 using PasswordManager.Data;
+using PasswordManager.Passwords.Services;
 using PasswordManager.Security.Encryption;
 using System.Buffers.Text;
 using System.Security.Cryptography;
@@ -17,6 +18,7 @@ builder.Services.AddSwaggerGen(options =>
 
 builder.Services.Configure<CryptOptions>(builder.Configuration.GetSection("Encryption"));
 builder.Services.AddTransient<Crypto>();
+builder.Services.AddTransient<IGenerate, RandomPassword>();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
