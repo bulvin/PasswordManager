@@ -9,12 +9,12 @@ namespace PasswordManager.Passes
     public class GetPassById : IEndpoint
     {
         public static void Map(IEndpointRouteBuilder app) => app
-            .MapGet("/{id}", Handle)
+            .MapGet("/{Id:guid}", Handle)
             .WithSummary("Gets a post by id");
 
-        public record Request(int Id);
+        public record Request(Guid Id);
         public record Response(
-            int Id,
+            Guid Id,
             string Url,
             string Username,
             string Password

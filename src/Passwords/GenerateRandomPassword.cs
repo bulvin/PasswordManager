@@ -9,6 +9,7 @@ namespace PasswordManager.Passwords
         public static void Map(IEndpointRouteBuilder app) => app
            .MapPost("/", Handle)
            .WithSummary("Generates a password");
+
         public record Request(
            int Length,
            bool RequireSymbols,

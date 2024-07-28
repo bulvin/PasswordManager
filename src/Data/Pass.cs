@@ -2,7 +2,7 @@
 {
     public class Pass
     {
-        public int Id { get; private init; }
+        public Guid Id { get; init; }
 
         public Uri WebsiteUrl { get; set; } = null!;
 

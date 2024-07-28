@@ -12,7 +12,7 @@ namespace PasswordManager.Passes
             .WithSummary("Gets all passes");
 
         public record Response(
-            int Id,
+            Guid Id,
             string Url,
             string Username
         );

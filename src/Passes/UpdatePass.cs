@@ -12,7 +12,7 @@ namespace PasswordManager.Passes
             .MapPut("/", Handle)
             .WithSummary("Updates a pass");
 
-        public record Request(int Id, string Url, string Username, string Password);
+        public record Request(Guid Id, string Url, string Username, string Password);
 
         private static async Task<Results<Ok,BadRequest>> Handle(
             Request request,

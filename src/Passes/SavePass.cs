@@ -14,7 +14,7 @@ namespace PasswordManager.Passwords
             .WithSummary("Saves a new pass");
 
         public record Request(string WebsiteUrl, string Username, string Passwd);
-        public record Response(int Id);
+        public record Response(Guid Id);
 
 
         private static async Task<Results<Created, BadRequest>> Handle(

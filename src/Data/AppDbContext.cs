@@ -19,7 +19,7 @@ namespace PasswordManager.Data
             var builder = modelBuilder.Entity<Pass>();
 
             builder.Property(p => p.WebsiteUrl)
-                .HasMaxLength(100)
+                .HasMaxLength(255)
                 .HasColumnName("website_url")
                 .IsRequired();
 
@@ -34,11 +34,13 @@ namespace PasswordManager.Data
                 .IsRequired();
 
             builder.Property(p => p.Id)
-                .HasColumnName("id");
+                .HasColumnName("id")
+                .HasColumnType("uuid") 
+                .HasDefaultValueSql("gen_random_uuid()");
+         
 
-            builder.HasKey(p => p.Id); 
-              
-
+            builder.HasKey(p => p.Id)
+                    .HasName("pk_passes_uuid_id");
 
         }
     }
