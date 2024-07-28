@@ -12,8 +12,8 @@ using PasswordManager.Data;
 namespace PasswordManager.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240727223307_wtf")]
-    partial class wtf
+    [Migration("20240727223307_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
