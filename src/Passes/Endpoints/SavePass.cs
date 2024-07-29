@@ -16,7 +16,7 @@ namespace PasswordManager.Passes.Endpoints
         public record Request(string WebsiteUrl, string Username, string Passwd);
         public record Response(Guid Id);
 
-
+            
         private static async Task<Results<Created, BadRequest>> Handle(
             Request request,
             AppDbContext database,

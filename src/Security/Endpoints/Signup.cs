@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
+﻿using BCrypt.Net;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 using PasswordManager.Common.Api;
 using PasswordManager.Data;
@@ -22,6 +23,7 @@ namespace PasswordManager.Security.Endpoints
             Request request,
             AppDbContext database,
             Jwt jwt,
+            BcryptPasswordHasher passwordHasher,
             CancellationToken cancellationToken
         )
         {
@@ -33,10 +35,11 @@ namespace PasswordManager.Security.Endpoints
                 return TypedResults.BadRequest();
             }
 
+            var passwordHash = passwordHasher.Hash(request.Password);
             var user = new User
             {
                 Name = request.Username,
-                Password = request.Password,
+                Password = passwordHash,
             };
 
             await database.Users.AddAsync(user, cancellationToken);

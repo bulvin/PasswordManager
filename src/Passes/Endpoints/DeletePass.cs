@@ -8,7 +8,7 @@ namespace PasswordManager.Passes.Endpoints
     public class DeletePass : IEndpoint
     {
         public static void Map(IEndpointRouteBuilder app) => app
-            .MapDelete("/{Id:guid}", Handle)
+            .MapDelete("/{id:guid}", Handle)
             .WithSummary("Deletes a pass");
 
         public record Request(Guid Id);

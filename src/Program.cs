@@ -5,6 +5,7 @@ using PasswordManager.Passwords.Services;
 using PasswordManager.Security.Encryption;
 using Microsoft.IdentityModel.Tokens;
 using PasswordManager.Security.Services;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,7 +33,7 @@ builder.Services.AddSwaggerGen(options =>
 
 builder.Services.Configure<CryptOptions>(builder.Configuration.GetSection("Encryption"));
 
-builder.Services.AddSingleton<Crypto>();
+builder.Services.AddTransient<Crypto>();
 builder.Services.AddTransient<IGenerate, RandomPassword>();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
@@ -56,6 +57,7 @@ builder.Services.AddAuthentication().AddJwtBearer(options =>
 builder.Services.AddAuthentication();
 builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("Jwt"));
 builder.Services.AddTransient<Jwt>();
+builder.Services.AddTransient<BcryptPasswordHasher>();
 
 
 var app = builder.Build();
