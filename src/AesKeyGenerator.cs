@@ -13,11 +13,9 @@ namespace PasswordManager
             aes.GenerateIV();
 
             var key = Convert.ToBase64String(aes.Key);
-            
-
+           
             StoreKeyInAppSettings(key);
         }
-
         private static void StoreKeyInAppSettings(string key)
         {
             var filePath = "appsettings.development.json";

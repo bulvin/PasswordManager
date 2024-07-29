@@ -3,7 +3,8 @@ using PasswordManager;
 using PasswordManager.Data;
 using PasswordManager.Passwords.Services;
 using PasswordManager.Security.Encryption;
-
+using Microsoft.IdentityModel.Tokens;
+using PasswordManager.Security.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,13 +16,11 @@ if (string.IsNullOrEmpty(key))
    
     AesKeyGenerator.GenerateKeyAndStoreInAppSettings();
 
-
     var newConfiguration = new ConfigurationBuilder()
          .AddJsonFile("appsettings.json", optional: true, reloadOnChange: false)
          .AddJsonFile("appsettings.development.json", optional: true, reloadOnChange: true)
          .AddEnvironmentVariables()
          .Build();
-
 }
 
 builder.Services.AddEndpointsApiExplorer();
@@ -40,7 +39,24 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 {
     options.UseNpgsql(builder.Configuration.GetConnectionString("Default"));
 });
-        
+
+builder.Services.AddAuthentication().AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        IssuerSigningKey = Jwt.SecurityKey(builder.Configuration["Jwt:Key"]!),
+        ValidateIssuer = false,
+        ValidateAudience = false,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ClockSkew = TimeSpan.Zero
+    };
+});
+
+builder.Services.AddAuthentication();
+builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("Jwt"));
+builder.Services.AddTransient<Jwt>();
+
 
 var app = builder.Build();
 

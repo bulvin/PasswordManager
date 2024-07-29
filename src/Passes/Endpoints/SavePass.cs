@@ -5,7 +5,7 @@ using PasswordManager.Common.Api;
 using PasswordManager.Data;
 using PasswordManager.Security.Encryption;
 
-namespace PasswordManager.Passwords
+namespace PasswordManager.Passes.Endpoints
 {
     public class SavePass : IEndpoint
     {
@@ -18,8 +18,8 @@ namespace PasswordManager.Passwords
 
 
         private static async Task<Results<Created, BadRequest>> Handle(
-            Request request, 
-            AppDbContext database, 
+            Request request,
+            AppDbContext database,
             Crypto crypto,
             CancellationToken cancellationToken)
         {
@@ -46,10 +46,10 @@ namespace PasswordManager.Passwords
 
 
             return TypedResults.Created();
-                
+
         }
 
 
-        
+
     }
 }

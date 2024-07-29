@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using PasswordManager.Common.Api;
 using PasswordManager.Data;
 
-namespace PasswordManager.Passes
+namespace PasswordManager.Passes.Endpoints
 {
     public class DeletePass : IEndpoint
     {
@@ -28,6 +28,6 @@ namespace PasswordManager.Passes
                 : TypedResults.NotFound();
         }
 
-        
+
     }
 }

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using PasswordManager.Common.Api;
 using PasswordManager.Data;
 
-namespace PasswordManager.Passes
+namespace PasswordManager.Passes.Endpoints
 {
     public class GetPasses : IEndpoint
     {
@@ -30,8 +30,8 @@ namespace PasswordManager.Passes
                     p.Username
                  ))
                 .ToListAsync(cancellationToken);
-            
+
         }
-        
+
     }
 }

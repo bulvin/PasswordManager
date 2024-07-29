@@ -1,5 +1,5 @@
 ﻿using PasswordManager.Common.Api;
-using PasswordManager.Passes;
+using PasswordManager.Passes.Endpoints;
 using PasswordManager.Passwords;
 using System.Net.NetworkInformation;
 
@@ -12,7 +12,6 @@ namespace PasswordManager
             var endpoints = app.MapGroup("")
                 .WithOpenApi(); 
 
-      
             endpoints.MapPassEndpoints();
             endpoints.MapPasswordEndpoints();
         }

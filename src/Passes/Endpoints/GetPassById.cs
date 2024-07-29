@@ -4,7 +4,7 @@ using PasswordManager.Common.Api;
 using PasswordManager.Data;
 using PasswordManager.Security.Encryption;
 
-namespace PasswordManager.Passes
+namespace PasswordManager.Passes.Endpoints
 {
     public class GetPassById : IEndpoint
     {
@@ -21,7 +21,7 @@ namespace PasswordManager.Passes
         );
 
         private static async Task<Results<Ok<Response>, NotFound>> Handle(
-            [AsParameters] Request request, 
+            [AsParameters] Request request,
             AppDbContext database,
             Crypto crypto,
             CancellationToken cancellationToken)
@@ -40,11 +40,11 @@ namespace PasswordManager.Passes
                ))
                .SingleOrDefaultAsync(cancellationToken);
 
-            return pass is null  
+            return pass is null
                 ? TypedResults.NotFound()
                 : TypedResults.Ok(pass);
-                
+
         }
-       
+
     }
 }

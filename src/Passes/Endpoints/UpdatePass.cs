@@ -4,7 +4,7 @@ using PasswordManager.Common.Api;
 using PasswordManager.Data;
 using PasswordManager.Security.Encryption;
 
-namespace PasswordManager.Passes
+namespace PasswordManager.Passes.Endpoints
 {
     public class UpdatePass : IEndpoint
     {
@@ -14,7 +14,7 @@ namespace PasswordManager.Passes
 
         public record Request(Guid Id, string Url, string Username, string Password);
 
-        private static async Task<Results<Ok,BadRequest>> Handle(
+        private static async Task<Results<Ok, BadRequest>> Handle(
             Request request,
             AppDbContext database,
             Crypto crypto,
@@ -24,7 +24,7 @@ namespace PasswordManager.Passes
             var pass = await database.Passes.SingleOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
 
             if (pass == null) return TypedResults.BadRequest();
-           
+
             if (request.Url != null)
             {
                 pass.WebsiteUrl = Uri.TryCreate(request.Url, UriKind.RelativeOrAbsolute, out var uri) ? uri : pass.WebsiteUrl;
@@ -41,12 +41,12 @@ namespace PasswordManager.Passes
             {
                 pass.Username = request.Username;
             }
-            
+
             await database.SaveChangesAsync(cancellationToken);
-       
+
             return TypedResults.Ok();
 
         }
-        
+
     }
 }
