@@ -1,7 +1,7 @@
 ﻿using PasswordManager.Common.Api;
 using PasswordManager.Passes.Endpoints;
 using PasswordManager.Passwords;
-using System.Net.NetworkInformation;
+using PasswordManager.Security.Endpoints;
 
 namespace PasswordManager
 {
@@ -10,12 +10,20 @@ namespace PasswordManager
         public static void MapEndpoints(this WebApplication app)
         {
             var endpoints = app.MapGroup("")
-                .WithOpenApi(); 
+                .WithOpenApi();
 
+            endpoints.MapAuthenticationEndpoints();
             endpoints.MapPassEndpoints();
             endpoints.MapPasswordEndpoints();
         }
+        private static void MapAuthenticationEndpoints(this IEndpointRouteBuilder app)
+        {
+            var endpoints = app.MapGroup("/auth")
+                .WithTags("Authentication");
 
+            endpoints
+                .MapEndpoint<Signup>();
+        }
         private static void MapPassEndpoints(this IEndpointRouteBuilder app)
         {
         
