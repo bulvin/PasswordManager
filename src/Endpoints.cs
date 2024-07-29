@@ -22,7 +22,8 @@ namespace PasswordManager
                 .WithTags("Authentication");
 
             endpoints
-                .MapEndpoint<Signup>();
+                .MapEndpoint<Signup>()
+                .MapEndpoint<Login>();
         }
         private static void MapPassEndpoints(this IEndpointRouteBuilder app)
         {
