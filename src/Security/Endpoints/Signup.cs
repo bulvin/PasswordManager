@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 using PasswordManager.Common.Api;
 using PasswordManager.Data;
+using PasswordManager.Security.Encryption;
 using PasswordManager.Security.Services;
 
 namespace PasswordManager.Security.Endpoints
@@ -24,6 +25,7 @@ namespace PasswordManager.Security.Endpoints
             AppDbContext database,
             Jwt jwt,
             BcryptPasswordHasher passwordHasher,
+            Crypto crypto,
             CancellationToken cancellationToken
         )
         {
@@ -34,12 +36,14 @@ namespace PasswordManager.Security.Endpoints
             {
                 return TypedResults.BadRequest();
             }
-
+            
             var passwordHash = passwordHasher.Hash(request.Password);
+            var (encryptedPassword, iv) = crypto.EncryptString(passwordHash);
             var user = new User
             {
                 Name = request.Username,
-                Password = passwordHash,
+                Password = encryptedPassword,
+                IV = iv,
             };
 
             await database.Users.AddAsync(user, cancellationToken);
