@@ -6,6 +6,7 @@ using PasswordManager.Security.Encryption;
 using Microsoft.IdentityModel.Tokens;
 using PasswordManager.Security.Services;
 using Microsoft.AspNetCore.Identity;
+using PasswordManager.AI;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -54,10 +55,13 @@ builder.Services.AddAuthentication().AddJwtBearer(options =>
     };
 });
 
-builder.Services.AddAuthentication();
 builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection("Jwt"));
 builder.Services.AddTransient<Jwt>();
 builder.Services.AddTransient<BcryptPasswordHasher>();
+
+var groqApiConfig = builder.Configuration.GetSection("GroqApi");
+builder.Services.Configure<GroqApiClientOptions>(groqApiConfig);
+builder.Services.AddHttpClient<IGroqApiClient, GroqApiClient>();
 
 
 var app = builder.Build();

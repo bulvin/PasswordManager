@@ -16,7 +16,6 @@ namespace PasswordManager.Passes.Endpoints
         public record Request(string WebsiteUrl, string Username, string Passwd);
         public record Response(Guid Id);
 
-            
         private static async Task<Results<Created, BadRequest>> Handle(
             Request request,
             AppDbContext database,
@@ -44,12 +43,8 @@ namespace PasswordManager.Passes.Endpoints
             await database.Passes.AddAsync(pass, cancellationToken);
             await database.SaveChangesAsync(cancellationToken);
 
-
             return TypedResults.Created();
 
         }
-
-
-
     }
 }
