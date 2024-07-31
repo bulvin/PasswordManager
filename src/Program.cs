@@ -35,7 +35,8 @@ builder.Services.AddSwaggerGen(options =>
 builder.Services.Configure<CryptOptions>(builder.Configuration.GetSection("Encryption"));
 
 builder.Services.AddTransient<Crypto>();
-builder.Services.AddTransient<IGenerate, RandomPassword>();
+builder.Services.AddSingleton<PasswordGeneratorFactory>();
+builder.Services.AddSingleton<RandomPassword>();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
