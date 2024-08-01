@@ -41,7 +41,7 @@ namespace PasswordManager.Passwords.Services
                 ["top_p"] = 0.9,
                 ["frequency_penalty"] = 0.8,
                 ["presence_penalty"] = 0.6,
-                ["stop"] = "\n",
+                ["stop"] = "TERMINATE",
                 ["messages"] = new JsonArray
             {
                 new JsonObject
@@ -54,7 +54,7 @@ namespace PasswordManager.Passwords.Services
                     ["role"] = "user",
                     ["content"] = $@"Generate a memorable password with the following criteria:
     - Consists of exactly {request.Length} words
-    - Use complete, meaningful words: {(request.FullWords ? "Yes" : "No")}.
+    - Use complete, meaningful words: {(request.FullWords!.Value ? "Yes" : "No")}.
     - Substitute some letters in the words with symbols (e.g., 'a' with '@', 's' with '$'): {(request.RequireSymbols ? "Yes" : "No")}.    - Incorporate numbers within some words: {(request.RequireNumbers ? "Yes" : "No")}.
     - Use a mix of uncommon and common, unrelated words separated by hyphens ('-')
     - Words should come from various categories (e.g., animals, objects, actions, adjectives, foods)

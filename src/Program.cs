@@ -7,6 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 using PasswordManager.Security.Services;
 using Microsoft.AspNetCore.Identity;
 using PasswordManager.AI;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,6 +31,9 @@ builder.Services.AddSwaggerGen(options =>
 {
     options.CustomSchemaIds(type => type.FullName?.Replace('+', '.'));
     options.InferSecuritySchemes();
+    options.SwaggerDoc("v1", new OpenApiInfo { Title = "Password Manager API", Version = "v1" });
+    options.EnableAnnotations();
+
 });
 
 builder.Services.Configure<CryptOptions>(builder.Configuration.GetSection("Encryption"));
