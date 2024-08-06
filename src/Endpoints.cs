@@ -44,7 +44,7 @@ namespace PasswordManager
             var passwordGroup = app.MapGroup("/password-generator")
                 .WithTags("Passwords");
 
-            passwordGroup.MapEndpoint<GenerateRandomPassword>();
+            passwordGroup.MapEndpoint<GeneratePassword>();
         }
 
         private static IEndpointRouteBuilder MapEndpoint<TEndpoint>(this IEndpointRouteBuilder app) where TEndpoint : IEndpoint

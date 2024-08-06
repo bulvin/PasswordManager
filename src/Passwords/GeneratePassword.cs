@@ -9,7 +9,7 @@ using System.Text.Json.Nodes;
 
 namespace PasswordManager.Passwords
 {
-    public class GenerateRandomPassword : IEndpoint
+    public class GeneratePassword : IEndpoint
     {
         public static void Map(IEndpointRouteBuilder app) => app
            .MapPost("/", Handle)
@@ -31,16 +31,7 @@ namespace PasswordManager.Passwords
            PasswordGeneratorFactory passwordGeneratorFactory
         )
         {
-            var defaultRequest = PasswordGenerationRequestDefaults.GetDefaultRequest(request.Type);
-
-            request = new PasswordGenerationRequest(
-                Length: request.Length,
-                RequireSymbols: request.RequireSymbols,
-                RequireNumbers: request.RequireNumbers,
-                FullWords: request.FullWords ?? defaultRequest.FullWords,
-                Type: request.Type
-            );
-
+           
             var strategy = passwordGeneratorFactory.GetStrategy(request.Type);
             var generatedPassword = await strategy.GeneratePasswordAsync(request);
             var response = new Response(generatedPassword);

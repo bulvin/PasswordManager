@@ -11,20 +11,13 @@ using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var initialConfig = builder.Configuration;
-var key = initialConfig["Encryption:Key"];
 
-if (string.IsNullOrEmpty(key))
-{
-   
-    AesKeyGenerator.GenerateKeyAndStoreInAppSettings();
-
-    var newConfiguration = new ConfigurationBuilder()
+var newConfiguration = new ConfigurationBuilder()
          .AddJsonFile("appsettings.json", optional: true, reloadOnChange: false)
          .AddJsonFile("appsettings.development.json", optional: true, reloadOnChange: true)
          .AddEnvironmentVariables()
          .Build();
-}
+
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>

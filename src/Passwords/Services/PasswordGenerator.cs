@@ -2,7 +2,8 @@
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json.Nodes;
-using static PasswordManager.Passwords.GenerateRandomPassword;
+using static PasswordManager.Passwords.GeneratePassword;
+
 
 namespace PasswordManager.Passwords.Services
 {
