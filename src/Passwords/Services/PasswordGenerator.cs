@@ -4,10 +4,8 @@ using System.Text;
 using System.Text.Json.Nodes;
 using static PasswordManager.Passwords.GeneratePassword;
 
-
 namespace PasswordManager.Passwords.Services
 {
-
     public interface IPasswordGeneratorStrategy
     {
         Task<string> GeneratePasswordAsync(PasswordGenerationRequest request);
@@ -15,19 +13,16 @@ namespace PasswordManager.Passwords.Services
 
     public class RandomPasswordGeneratorStrategy(RandomPassword randomPassword) : IPasswordGeneratorStrategy
     {
-        private RandomPassword RandomPassword => randomPassword;
-
-        public async Task<string> GeneratePasswordAsync(PasswordGenerationRequest request)
+        public Task<string> GeneratePasswordAsync(PasswordGenerationRequest request)
         {
-            return await Task.Run(() => RandomPassword.Generate(
-                request.Length,
-                request.RequireNumbers,
-                request.RequireSymbols
-            ));
-        }
+            var password = randomPassword.Generate(request.Length, 
+                request.RequireNumbers, 
+                request.RequireSymbols);
 
-        
+            return Task.FromResult(password);
+        }
     }
+
     public class MemorablePasswordGeneratorStrategy(IGroqApiClient groqClient) : IPasswordGeneratorStrategy
     {
         private IGroqApiClient GroqClient => groqClient;
