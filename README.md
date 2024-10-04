@@ -1,1 +1,2 @@
 # PasswordManager
+This Password Manager project uses the AES algorithm to securely encrypt user data. It allows users to store login credentials (website URL, username/email, and password) for various accounts. The application features two types of password generation: a random password generator and an AI-powered memorable password creator that constructs passwords using words. The AI-assisted generation helps create strong yet easier-to-remember passwords.
